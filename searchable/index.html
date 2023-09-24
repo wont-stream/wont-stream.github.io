@@ -63,7 +63,7 @@
             result.data.forEach(item => {
                 if (item.kind !== "customsearch#result") return;
 
-                results.innerHTML += `<article><img src="https://icon.horse/icon/${item.displayLink}" /><span class="text"><a target="_blank" rel="noopener noreferrer" href="${item.link}">${item.displayLink}</a><br><span>${item.htmlTitle}</span></span></article>`
+                results.innerHTML += `<article><img src="https://icon.horse/icon/${item.displayLink}" loading="lazy" /><span class="text"><a target="_blank" rel="noopener noreferrer" href="${item.link}">${item.displayLink}</a><br><span>${item.htmlTitle}</span></span></article>`
             })
         }
 
