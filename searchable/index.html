@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css" />
+    <style>
+        article {
+            opacity: 0;
+            animation: fadeIn 1s linear forwards !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        img {
+            width: 1.9em;
+            border-radius: 100%;
+            float: right;
+        }
+
+        .text {}
+    </style>
+    <title>Searchable</title>
+</head>
+
+<body>
+    <main class="container">
+        <form><input type="search" placeholder="Search" aria-label="Search" id="search-input" name="q" /></form>
+        <div id="results"></div>
+        <br>
+        <form role="search" id="nav">
+            <input type="submit" value="&lt;" id="back" />
+            <input type="text" disabled value="0" id="page" style="text-align: center;" />
+            <input type="submit" value="&gt;" id="forward" />
+        </form>
+    </main>
+
+    <script>
+        const results = document.getElementById("results")
+        const nav = document.getElementById("nav")
+        const page = document.getElementById("page")
+        const params = new URLSearchParams(location.search)
+
+        page.value = params.get("p") || 1
+
+        const search = async (q, p) => {
+            const api = await fetch(`https://api.duckduckno.com/search?q=${q}&p=${p == -1 ? 0 : p}`)
+            const result = await api.json()
+
+            if (result.code !== 200) {
+                return results.innerHTML = "<center>No results here, try going back a page?</center>"
+            }
+
+            result.data.forEach(item => {
+                if (item.kind !== "customsearch#result") return;
+
+                results.innerHTML += `<article><img src="https://icon.horse/icon/${item.displayLink}" /><span class="text"><a target="_blank" rel="noopener noreferrer" href="${item.link}">${item.displayLink}</a><br><span>${item.htmlTitle}</span></span></article>`
+            })
+        }
+
+        document.getElementById("back").addEventListener("click", () => {
+            let url = new URL(location.href)
+            url.searchParams.set("p", (parseInt(params.get("p")) == 0 ? params.get("p") : params.get("p") - 1))
+            location.href = url
+        })
+
+        document.getElementById("forward").addEventListener("click", () => {
+            let url = new URL(location.href)
+            url.searchParams.set("p", parseInt(params.get("p")) + 1)
+            location.href = url
+        })
+
+        if (params.get("q")) {
+            const q = params.get("q")
+            const p = parseInt(params.get("p")) - 1 || 0
+            document.getElementById("search-input").value = q
+            document.title = `Searchable - ${q}`
+
+            search(q, p)
+        }
+
+        nav.addEventListener("submit", (e) => {
+            e.preventDefault()
+        })
+    </script>
+</body>
+
+</html>
