@@ -56,7 +56,7 @@ const discord = async() => {
 const heartrate = async() => {
     let html = '';
 
-    let data = await fetch(`${(location.protocol)}//${location.host}/api/heartrate`)
+    let data = await fetch(`https://backend.katze.click/api/heartrate`)
     data = await data.json()
 
     if (data.hr !== 0) {
