@@ -3,7 +3,6 @@ import("https://esm.run/docsify/lib/plugins/external-script.min.js");
 import("https://esm.run/docsify/lib/plugins/search.min.js");
 import("https://esm.run/docsify/lib/plugins/zoom-image.min.js");
 import("https://esm.run/docsify-copy-code/dist/docsify-copy-code.min.js");
-import("https://cdn.jsdelivr.net/gh/scottschiller/Snowstorm/snowstorm-min.js")
 
 window.$docsify = {
     name: 'Unstream <br> <span id="time">00:00</span> <img src="assets/etc/1x1.png" onload="window.$sidebarLoaded()" width="0px">',
@@ -23,13 +22,6 @@ window.$docsify = {
         placeholder: "Search"
     }
 };
-
-const statuses = {
-    "online": "🟢",
-    "idle": "🟡",
-    "dnd": "🔴",
-    "offline": "⚫",
-}
 
 window.$sidebarLoaded = async () => {
     setInterval(time, 1000)
