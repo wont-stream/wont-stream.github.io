@@ -33,3 +33,7 @@ const time = () => {
 
     document.getElementById("time").innerText = `${currentTime[0]}:${currentTime[1]} ${currentTime[0] >= 0 && currentTime[0] <= 6 ? "💤" : ""}`
 }
+
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.querySelector("[rel=\"icon\"]").setAttribute("href", "/favicon_light.ico")
+}
