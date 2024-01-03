@@ -1,11 +1,12 @@
-import("https://esm.sh/docsify/lib/docsify.min.js");
-import("https://esm.sh/docsify/lib/plugins/external-script.min.js");
-import("https://esm.sh/docsify/lib/plugins/search.min.js");
-import("https://esm.sh/docsify/lib/plugins/zoom-image.min.js");
-import("https://esm.sh/docsify-copy-code/dist/docsify-copy-code.min.js");
+import("https://esm.run/docsify/lib/docsify.min.js");
+import("https://esm.run/docsify/lib/plugins/external-script.min.js");
+import("https://esm.run/docsify/lib/plugins/search.min.js");
+import("https://esm.run/docsify/lib/plugins/zoom-image.min.js");
+import("https://esm.run/docsify-copy-code/dist/docsify-copy-code.min.js");
+import("https://cdn.jsdelivr.net/gh/scottschiller/Snowstorm/snowstorm-min.js")
 
 window.$docsify = {
-    name: 'Katze <span id="discord_data_discord_status">⚫</span> <br> <span id="time">00:00</span> <span id="hr"></span> <img src="assets/etc/1x1.png" onload="window.$sidebarLoaded()" width="0px">',
+    name: 'Unstream <br> <span id="time">00:00</span> <img src="assets/etc/1x1.png" onload="window.$sidebarLoaded()" width="0px">',
 
     basePath: '/pages/',
     
@@ -33,41 +34,10 @@ const statuses = {
 window.$sidebarLoaded = async () => {
     setInterval(time, 1000)
     time()
-
-    discord()
-
-    heartrate()
 }
 
 const time = () => {
     const currentTime = new Date().toLocaleString("en-DE", { timeZone: "America/New_York" }).split(", ")[1].split(":");
 
     document.getElementById("time").innerText = `${currentTime[0]}:${currentTime[1]} ${currentTime[0] >= 0 && currentTime[0] <= 6 ? "💤" : ""}`
-}
-
-const discord = async() => {
-    let data = await fetch("https://lanyard.rest/v1/users/1125315673829154837")
-    data = await data.json()
-    data = data.data
-
-    document.getElementById("discord_data_discord_status").innerText = statuses[data.discord_status]
-}
-
-const heartrate = async() => {
-    let html = '';
-
-    let data = await fetch(`https://backend.katze.click/api/heartrate`)
-    data = await data.json()
-
-    if (data.hr !== 0) {
-        html += "<br>"
-        html += `❤️: ${data.hr}`
-    }
-
-    if (data.avg !== null) {
-        html += "<br>"
-        html += `💖: ${data.avg}`
-    }
-
-    document.getElementById("hr").innerHTML = html
 }
